@@ -1,1 +1,1 @@
-Todo_List app to go with @angelabauer's Web Design Udemy class
+Node Todo_List app component
