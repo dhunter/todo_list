@@ -1,0 +1,107 @@
+:root {
+    --first_color: #A683E3;
+    --second_color: #808080;
+    --third_color: #ffffff;
+    --fourth_color: #f1f1f1;
+    --fifth_color: #E4E9FD;
+    --sixth_color: #00204a;
+
+    --first_rgb: 0, 0, 0; /* For use in rgba */
+}
+
+::placeholder {
+    color: var(--second_color);
+    opacity: 1;
+}
+
+#heading {
+    background-color: var(--first_color);
+    text-align: center;
+}
+
+.box {
+    background: var(--third_color);
+    border-radius: .3rem;
+    box-shadow: .3rem .3rem 1rem -.3rem rgba(var(--first_rgb), 0.3);
+    max-width: 25rem;
+    margin: 3rem auto;
+}
+
+.item {
+    align-items: center;
+    border-bottom: .0625rem solid var(--fourth_color);
+    display: flex;
+    min-height: 4.375rem;
+}
+  
+.item:last-child {
+    border-bottom: 0;
+}
+
+button {
+    background-color: var(--first_color);
+    border-color: transparent;
+    border-radius: 50%;
+    border-width: 0;
+    color: var(--third_color);
+    font-size: 1.875rem;
+    min-height: 3rem;
+    padding-bottom: .375rem;
+    width: 3rem;
+}
+
+footer {
+    color: var(--third_color);
+    color: rgba(var(--first_rgb), 0.5);
+    text-align: center;
+}
+
+form {
+    margin-left: 1.25rem;
+    text-align: center;
+}
+
+html {
+    background-color: var(--fifth_color);
+    background-image: -webkit-linear-gradient(65deg, var(--first_color) 50%, var(--fifth_color) 50%);
+    font-family: 'helvetica neue';
+    min-height: 62.5rem;
+}
+  
+h1 {
+    color: var(--third_color);
+    padding: .625rem;
+}
+
+input:checked+p {
+    text-decoration: line-through;
+    text-decoration-color: var(--first_color);
+}
+  
+input[type="checkbox"] {
+    margin: 1.25rem;
+}
+
+input[type="text"] {
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 200;
+    height: 3.75rem;
+    text-align: center;
+    top: .625rem;
+    width: 19.5rem;
+}
+  
+input[type="text"]:focus {
+    box-shadow: inset 0 -.1875 0 0 var(--first_color);
+    outline: none;
+}
+  
+p {
+    color: var(--sixth_color);
+    font-size: 1.25rem;
+    font-weight: 200;
+    margin: 0;
+    padding: 1.25rem;
+}
