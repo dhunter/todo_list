@@ -3,6 +3,7 @@ const body_parser = require('body-parser');
 const dotenv = require('dotenv').config();
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+const lodash = require('lodash');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -14,14 +15,6 @@ let deprecation_warning_items = {
     useUnifiedTopology: true
 }
 mongoose.connect(process.env.MONGODB_LOCATION + '/todo_list_db', deprecation_warning_items);
-
-const today = new Date();
-const options = {
-    month: 'long', // June
-    day: 'numeric', // 11
-    year: 'numeric' // 2020 
-}
-const day = today.toLocaleDateString('en-US', options);
 
 const items_schema = new mongoose.Schema ({
     name: {
@@ -41,28 +34,20 @@ const items_schema = new mongoose.Schema ({
 
 const Item = mongoose.model('item', items_schema);
 
-app.get('/', function(req, res) {
-    Item.find({list: day, completed: false}, function(err, items) {
+app.get('/:list_title?', function(req, res) {
+    let list_title = '';
+    if (typeof(req.params.list_title) === 'undefined') {
+        list_title = 'Today';
+    } else {
+        list_title = lodash.startCase(lodash.lowerCase(req.params.list_title))
+    }
+    Item.find({list: list_title, completed: false}, function(err, items) {
         if (err) {
             console.log(err);
         } else {
             let todo_items = items;
             res.render('list', {
-                list_title: day,
-                todo_items: todo_items
-            });
-        }
-    });
-});
-
-app.get('/work', function(req, res) {
-    Item.find({list: "Work List"}, function(err, items) {
-        if (err) {
-            console.log(err);
-        } else {
-            let todo_items = items;
-            res.render('list', {
-                list_title: "Work List",
+                list_title: list_title,
                 todo_items: todo_items
             });
         }
@@ -75,21 +60,21 @@ app.post('/', function(req, res) {
         list: req.body.list
     });
     add_item.save();
-
-    if (req.body.list === "Work List") {
-        res.redirect('/work');
-    } else {
+    if (req.body.list === 'Today') {
         res.redirect('/');
+    } else {
+        res.redirect('/' + lodash.lowerCase(req.body.list));
     }
 });
 
 app.post('/completed', function(req, res) {
-    console.log(req.body.checkbox);
+    const today = new Date();
+    console.log(req.body.list);
     Item.updateOne(
         {_id: req.body.checkbox},
         {
             completed: true,
-            completed_date: day
+            completed_date: today
         },
         function(err) {
             if (err) {
@@ -98,7 +83,11 @@ app.post('/completed', function(req, res) {
                 console.log("Successfully marked as completed");
             }
     });
-    res.redirect('/');
+    if (req.body.list === 'Today') {
+        res.redirect('/');
+    } else {
+        res.redirect('/' + lodash.lowerCase(req.body.list));
+    }
 });
 
 app.listen(process.env.PORT, function() {
