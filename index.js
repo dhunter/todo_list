@@ -14,7 +14,7 @@ let deprecation_warning_items = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }
-mongoose.connect(process.env.MONGODB_LOCATION + '/todo_list_db', deprecation_warning_items);
+mongoose.connect('mongodb://' + process.env.MONGODB_LOCATION + '/todo_list_db', deprecation_warning_items);
 
 const items_schema = new mongoose.Schema ({
     name: {
