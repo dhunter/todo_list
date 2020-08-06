@@ -29,7 +29,7 @@ const items_schema = new mongoose.Schema ({
         type: Boolean,
         default: false
     },
-    completed_date: String
+    completed_date: Date
 });
 
 const Item = mongoose.model('item', items_schema);
