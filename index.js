@@ -14,7 +14,12 @@ let deprecation_warning_items = {
     useNewUrlParser: true,
     useUnifiedTopology: true
 }
-mongoose.connect('mongodb://' + process.env.MONGODB_LOCATION + '/todo_list_db', deprecation_warning_items);
+
+// Mongodb databases - uncomment appropriate line
+// Dev
+// mongoose.connect(process.env.MONGODB_DEV, deprecation_warning_items);
+// Production
+mongoose.connect(process.env.MONGODB_PRODUCTION, deprecation_warning_items);
 
 const items_schema = new mongoose.Schema ({
     name: {
@@ -69,7 +74,6 @@ app.post('/', function(req, res) {
 
 app.post('/completed', function(req, res) {
     const today = new Date();
-    console.log(req.body.list);
     Item.updateOne(
         {_id: req.body.checkbox},
         {
